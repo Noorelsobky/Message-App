@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Messages</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+  <!-- Navigation bar -->
+  <nav class="navbar">
+    <a class="navbar-brand" href="/messages">Messages</a>
+
+    <ul class="navbar-links">
+      <li>
+        <a href="/profile">My Profile</a>
+      </li>
+      <li>
+        <a href="/log-out">Log Out</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main page content -->
+  <main class="container">
+
+    <p class="welcome-message">
+      Welcome <%= currentUser.username %>!
+    </p>
+
+    <h2>Users</h2>
+
+    <% if (users.length === 0) { %>
+
+      <p>No other users yet.</p>
+
+    <% } else { %>
+
+      <ul class="user-list">
+        <% users.forEach(user => { %>
+          <li class="user-item">
+            <a class="user-link" href="/messages/<%= user.id %>">
+
+              <img
+                class="profile-picture profile-picture-small"
+                src="<%= user.profilePicture || '/images/default-avatar.png' %>"
+                alt="Profile picture"
+              >
+
+              <span><%= user.username %></span>
+
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+
+    <% } %>
+
+  </main>
+
+</body>
+</html>

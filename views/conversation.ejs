@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversation</title>
+  <link rel="stylesheet" href="/css/styles.css">
+
+  <script
+    type="module"
+    src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js">
+  </script>
+  <script src="/js/conversation.js" defer></script>
+</head>
+<body>
+  <nav class="navbar">
+    <a class="navbar-brand" href="/messages">Messages</a>
+    <ul class="navbar-links">
+      <li><a href="/profile">My Profile</a></li>
+      <li><a href="/log-out">Log Out</a></li>
+    </ul>
+  </nav>
+
+  <div class="container conversation-container">
+    <a href="/messages">← Back to Messages</a>
+
+    <div class="conversation-header">
+      <% if (otherUser.profilePicture) { %>
+        <img
+          class="profile-picture profile-picture-small"
+          src="<%= otherUser.profilePicture %>"
+          alt="Profile picture">
+      <% } %>
+      <h1>Chat with <%= otherUser.username %></h1>
+    </div>
+
+    <div
+      class="messages"
+      id="messages-list"
+      aria-live="polite"
+      data-current-user-id="<%= currentUser.id %>">
+
+      <% if (messages.length === 0) { %>
+        <p class="empty-messages" id="empty-messages">
+          No messages yet. Start the conversation!
+        </p>
+      <% } %>
+
+      <% messages.forEach(message => { %>
+        <div
+          class="message <%= message.senderId === currentUser.id ? 'message-sent' : 'message-received' %>"
+          data-message-id="<%= message.id %>">
+
+          <strong><%= message.sender.username %></strong>
+
+          <% if (message.content) { %>
+            <p class="message-content"><%= message.content %></p>
+          <% } %>
+
+          <% if (message.imagePath) { %>
+            <img
+              src="<%= message.imagePath %>"
+              alt="Image sent in conversation"
+              class="message-image"
+              loading="lazy">
+          <% } %>
+
+          <small class="message-time">
+            <%= message.createdAt.toLocaleString() %>
+          </small>
+
+          <% if (message.senderId === currentUser.id) { %>
+            <button
+              type="button"
+              class="delete-message-button"
+              data-delete-message="<%= message.id %>"
+              aria-label="Delete this message"
+              title="Delete message">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4h8v2"></path>
+                <path d="m19 6-1 14H6L5 6"></path>
+                <path d="M10 11v5M14 11v5"></path>
+              </svg>
+            </button>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+
+    <p id="chat-status" class="chat-status" role="status"></p>
+
+    <form
+      class="message-form"
+      id="message-form"
+      action="/messages/<%= otherUser.id %>"
+      method="POST"
+      enctype="multipart/form-data">
+
+      <div class="emoji-picker-wrapper">
+        <button
+          type="button"
+          id="emoji-toggle"
+          class="icon-button"
+          aria-label="Choose emoji"
+          aria-expanded="false"
+          title="Choose emoji">
+
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+            <path d="M9 9h.01M15 9h.01"></path>
+          </svg>
+        </button>
+
+        <emoji-picker id="emoji-picker" hidden></emoji-picker>
+      </div>
+
+      <textarea
+        name="content"
+        id="message-content"
+        placeholder="Write a message..."
+        maxlength="1000"
+        aria-label="Write a message"></textarea>
+
+      <label
+        for="message-image"
+        class="icon-button image-upload-button"
+        title="Attach an image"
+        aria-label="Attach an image">
+
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true">
+          <rect x="3" y="7" width="18" height="13" rx="2"></rect>
+          <path d="M8 7l1.5-3h5L16 7"></path>
+          <circle cx="12" cy="13.5" r="3"></circle>
+        </svg>
+      </label>
+
+      <input
+        type="file"
+        id="message-image"
+        name="image"
+        accept="image/*"
+        hidden>
+
+      <span id="selected-image-name"></span>
+
+      <button type="submit" id="send-button" class="send-button">
+        Send
+      </button>
+    </form>
+  </div>
+</body>
+</html>

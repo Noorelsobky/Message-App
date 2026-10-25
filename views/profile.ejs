@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Profile</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+  <!-- Navigation bar -->
+<nav class="navbar">
+  <a class="navbar-brand" href="/messages">Messages</a>
+
+  <ul class="navbar-links">
+    <li>
+      <a href="/profile">My Profile</a>
+    </li>
+    <li>
+      <a href="/log-out">Log Out</a>
+    </li>
+  </ul>
+</nav>
+
+  <div class="container">
+
+    <div class="nav">
+      <a href="/messages">← Messages</a>
+    </div>
+
+    <div class="profile-card">
+
+      <h1>My Profile</h1>
+
+      <h2><%= user.username %></h2>
+
+      <img
+      class="profile-picture profile-picture-large"
+      src="<%= user.profilePicture || '/images/default-avatar.png' %>"
+      alt="Profile picture"
+    >
+
+      <div class="profile-bio">
+
+        <% if (user.bio) { %>
+          <p><%= user.bio %></p>
+        <% } else { %>
+          <p>No bio yet.</p>
+        <% } %>
+
+      </div>
+
+      <a class="button" href="/profile/edit">Edit Profile</a>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
