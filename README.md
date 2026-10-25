@@ -17,19 +17,19 @@ A full-stack messaging application built with Node.js, Express.js, PostgreSQL, a
 
 ### Conversation Page
 
-![Conversation Page](screenshots/conversation)
+![Conversation Page](screenshots/conversation.png)
 
 ### Messages Page
 
-![Messages Page](screenshots/messages)
+![Messages Page](screenshots/messages.png)
 
 ### User Profile
 
-![User Profile](screenshots/profile)
+![User Profile](screenshots/profile.png)
 
 ### Login Page
 
-![Login Page](screenshots/login)
+![Login Page](screenshots/login.png)
 
 ## Tech Stack
 
